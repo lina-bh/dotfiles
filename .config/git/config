@@ -1,0 +1,9 @@
+[alias]
+ci = "commit"
+st = "status"
+upsub = "!git submodule update --init --recursive"
+
+[user]
+email = "36717206+lina-bh@users.noreply.github.com"
+name = "lina-bh"
+useConfigOnly = true

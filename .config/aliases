@@ -1,0 +1,4 @@
+alias juserctl 'journalctl --user'
+alias ls 'ls -FHh --color=auto'
+alias rsync 'rsync --recursive --sparse --preallocate --progress --partial --human-readable --fsync'
+alias userctl 'systemctl --user'

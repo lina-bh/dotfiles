@@ -1,5 +1,0 @@
-#!/bin/sh
-set -e
-mtpt="$1"
-dot_clean -mv "$mtpt"
-diskutil eject "$mtpt"

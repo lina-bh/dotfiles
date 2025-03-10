@@ -1,9 +1,0 @@
-$include /etc/inputrc
-set completion-ignore-case on
-set enable-bracketed-paste on
-set print-completions-horizontally on
-set revert-all-at-newline on
-set show-all-if-unmodified on
-"\e[A": history-search-backward
-"\e[B": history-search-forward
-"\C-w": unix-filename-rubout

@@ -1,3 +1,0 @@
-#!/bin/sh
-set -e
-xcrun simctl list devices -j | jq '.devices | first(.[]) | .[].udid' | xargs xcrun simctl delete

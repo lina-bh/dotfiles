@@ -1,2 +1,0 @@
-#!/bin/sh
-exec brew cleanup --prune=all

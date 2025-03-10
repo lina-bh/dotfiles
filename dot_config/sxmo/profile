@@ -1,8 +1,0 @@
-# shellcheck source=scripts/core/sxmo_common.sh
-# configversion: e7cdaa3a889d251bed8a89ce8c622995
-. sxmo_common.sh
-command -v chromium >/dev/null && export BROWSER=chromium
-#export TERMCMD="sxmo_terminal.sh"
-export SXMO_TERMINAL="alacritty"
-export SXMO_SWAY_SCALE='1.60'
-export SXMO_MENU=wofi
