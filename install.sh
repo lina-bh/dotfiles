@@ -1,4 +1,14 @@
 #!/bin/bash
-# find . -regextype sed -type f -not -regex '\./\.git.*'
+set -euo pipefail
 toplevel="$(git rev-parse --show-toplevel)"
-exec find "$toplevel" -regextype sed -type f -not -regex '.*\.git.*'
+dotfiles="$(find "$toplevel" -regextype sed -type f -regex "$toplevel"'/\..*' ! -regex "$toplevel"'/.git.*')"
+for target in $dotfiles; do
+	dotpath="${target#$toplevel/}"
+	link="${HOME}/$dotpath"
+	linkdir="$(dirname "$link")"
+	[[ "$linkdir" != ".." ]] && mkdir -pv "$linkdir"
+	ln -sfv "$target" "$link"
+done
+
+tee "${HOME}/.bash_logout" <<< 'clear'
+rm "${HOME}/.bash_profile"
