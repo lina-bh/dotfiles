@@ -1,3 +1,4 @@
+source ~/.config/env
 cleanup_PATH() {
   export PATH="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$PATH")"
 }
