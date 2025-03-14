@@ -1,1 +1,8 @@
-export PATH="$PATH${PATH:+:}$HOME/bin:$HOME/.cargo/bin:$HOME/.local/bin:/var/lib/flatpak/exports/bin:$HOME/.local/share/flatpak/exports/bin"
+export PATH="\
+$HOME/bin:\
+$HOME/.cargo/bin:\
+$HOME/.local/bin:\
+$PATH${PATH:+:}\
+/var/lib/flatpak/exports/bin:\
+$HOME/.local/share/flatpak/exports/bin\
+"
