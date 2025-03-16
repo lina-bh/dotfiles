@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
-toplevel="$(git rev-parse --show-toplevel)"
+worktree="$(dirname "$0")"
+toplevel="$(git --git-dir="${worktree}/.git" --work-tree="${worktree}" rev-parse --show-toplevel)"
 dotfiles="$(find "$toplevel" -regextype sed -type f -regex "$toplevel"'/\..*' ! -regex "$toplevel"'/.git.*')"
 for target in $dotfiles; do
 	dotpath="${target#"$toplevel"/}"
