@@ -1,3 +1,5 @@
+set -x SHELL /bin/fish
+
 status is-interactive; and begin
     source ~/.config/aliases
 
