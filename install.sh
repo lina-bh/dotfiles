@@ -11,5 +11,6 @@ for target in $dotfiles; do
 	ln -sfv "$target" "$link"
 done
 
+ln -fv "$toplevel/.config/containers/systemd/aria2c/aria2.conf" "$HOME/.config/containers/systemd/aria2c/aria2.conf"
 tee "${HOME}/.bash_logout" <<<'clear' >/dev/null
 rm "${HOME}/.bash_profile" 2>/dev/null || :

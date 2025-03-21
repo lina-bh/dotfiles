@@ -1,0 +1,5 @@
+[Build]
+ImageTag=aria2c
+Pull=newer
+SetWorkingDirectory=aria2c
+PodmanArgs=--squash
