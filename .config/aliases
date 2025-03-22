@@ -4,4 +4,5 @@ alias rsync='rsync --recursive --sparse --preallocate --progress --partial --hum
 alias userctl='systemctl --user'
 alias vim=nvim
 alias aria2c='podman run --rm --tty --interactive --security-opt=label=disable --userns=host --mount=type=bind,src=.,target=/workdir --read-only aria2c'
-alias mpv='io.mpv.Mpv'
+alias mpv='flatpak run io.mpv.Mpv'
+alias flatpak='flatpak --user'
