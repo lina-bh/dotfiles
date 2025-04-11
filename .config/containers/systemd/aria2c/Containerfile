@@ -1,5 +1,0 @@
-FROM docker.io/alpine:edge
-RUN apk add aria2
-COPY ./aria2.conf /
-WORKDIR /workdir
-ENTRYPOINT ["/usr/bin/aria2c", "--conf-path=/aria2.conf"]

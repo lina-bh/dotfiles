@@ -11,8 +11,6 @@ for target in $dotfiles; do
 	ln -sfv "$target" "$link"
 done
 set -x
-ln -f "$toplevel/.config/containers/systemd/aria2c/aria2.conf" "$HOME/.config/containers/systemd/aria2c/aria2.conf"
-ln -f "$toplevel/.config/containers/systemd/piped/config.properties" "$HOME/.config/containers/systemd/piped/config.properties"
 ln -f "$toplevel/.config/MangoHud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
 tee "${HOME}/.bash_logout" <<<'clear' >/dev/null
 rm "${HOME}/.bash_profile" 2>/dev/null || :

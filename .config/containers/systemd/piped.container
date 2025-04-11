@@ -1,5 +1,0 @@
-[Container]
-Image=docker.io/1337kavin/piped:latest
-PublishPort=8080:8080
-Mount=type=bind,src=./piped/config.properties,target=/app/config.properties,ro,relabel=private
-Network=pasta:-T,5432
