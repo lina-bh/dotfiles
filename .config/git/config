@@ -7,3 +7,5 @@ upsub = "!git submodule update --init --recursive"
 email = "36717206+lina-bh@users.noreply.github.com"
 name = "lina-bh"
 useConfigOnly = true
+[init]
+	defaultBranch = main

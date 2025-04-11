@@ -1,0 +1,12 @@
+# miniflux.container
+[Unit]
+Requires=miniflux-pod.service
+After=miniflux-pod.service
+
+[Container]
+Pod=miniflux.pod
+Environment="DATABASE_URL=dbname=miniflux user=miniflux host=localhost sslmode=disable" RUN_MIGRATIONS=1 DISABLE_SCHEDULER_SERVICE=1 CLEANUP_ARCHIVE_READ_DAYS=1 CLEANUP_ARCHIVE_UNREAD_DAYS=1 FILTER_ENTRY_MAX_AGE_DAYS=1
+Image=ghcr.io/miniflux/miniflux:latest
+
+[Service]
+Restart=always

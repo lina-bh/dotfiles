@@ -1,0 +1,11 @@
+# postgres.container
+[Unit]
+Before=miniflux.service
+
+[Container]
+Pod=miniflux.pod
+Environment=POSTGRES_USER=miniflux POSTGRES_DB=miniflux POSTGRES_HOST_AUTH_METHOD=trust
+Image=docker.io/postgres:17-alpine
+Mount=type=volume,source=miniflux-pg.volume,destination=/var/lib/postgresql/data
+HealthCmd=pg_isready -U miniflux
+Notify=healthy

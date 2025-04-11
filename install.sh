@@ -10,7 +10,11 @@ for target in $dotfiles; do
 	[[ "$linkdir" != ".." ]] && mkdir -pv "$linkdir"
 	ln -sfv "$target" "$link"
 done
-
-ln -fv "$toplevel/.config/containers/systemd/aria2c/aria2.conf" "$HOME/.config/containers/systemd/aria2c/aria2.conf"
+set -x
+ln -f "$toplevel/.config/containers/systemd/aria2c/aria2.conf" "$HOME/.config/containers/systemd/aria2c/aria2.conf"
+ln -f "$toplevel/.config/containers/systemd/piped/config.properties" "$HOME/.config/containers/systemd/piped/config.properties"
+ln -f "$toplevel/.config/MangoHud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
 tee "${HOME}/.bash_logout" <<<'clear' >/dev/null
 rm "${HOME}/.bash_profile" 2>/dev/null || :
+ln -f "$toplevel/.config/mpv/mpv.conf" "$HOME/.config/mpv/mpv.conf"
+set +x

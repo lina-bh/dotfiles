@@ -11,4 +11,4 @@ PodmanArgs=--uts=host
 AutoUpdate=registry
 
 [Install]
-WantedBy=default.target.wants
+WantedBy=default.target

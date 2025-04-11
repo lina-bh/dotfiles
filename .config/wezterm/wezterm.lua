@@ -28,7 +28,7 @@ config.background = {
 	},
 }
 config.window_close_confirmation = "NeverPrompt"
--- config.swallow_mouse_click_on_pane_focus = true
+config.swallow_mouse_click_on_pane_focus = true
 config.window_frame = {
 	font_size = 10,
 }

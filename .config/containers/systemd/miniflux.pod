@@ -1,0 +1,4 @@
+# vim: ft=systemd
+# miniflux.pod
+[Pod]
+PublishPort=0.0.0.0:8080:8080/tcp
