@@ -9,9 +9,13 @@ set nowritebackup
 set noswapfile
 " set shada=''
 set laststatus=1
-
-set expandtab
+set nowildmenu
+set wildmode=longest,list
+set autochdir
 set softtabstop=2
+set shiftwidth=2
+set expandtab
+set notermguicolors
 
 let g:mapleader = ','
 

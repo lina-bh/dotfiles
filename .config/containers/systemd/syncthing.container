@@ -9,6 +9,3 @@ UserNS=keep-id
 SecurityLabelDisable=true
 PodmanArgs=--uts=host
 AutoUpdate=registry
-
-[Install]
-WantedBy=default.target

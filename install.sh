@@ -11,8 +11,7 @@ for target in $dotfiles; do
 	ln -sfv "$target" "$link"
 done
 set -x
-ln -f "$toplevel/.config/MangoHud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
-tee "${HOME}/.bash_logout" <<<'clear' >/dev/null
+echo clear > "${HOME}/.bash_logout"
 rm "${HOME}/.bash_profile" 2>/dev/null || :
+ln -f "$toplevel/.config/MangoHud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
 ln -f "$toplevel/.config/mpv/mpv.conf" "$HOME/.config/mpv/mpv.conf"
-set +x
