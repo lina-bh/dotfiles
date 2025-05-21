@@ -1,4 +1,3 @@
-source ~/.config/env
 PATH="\
 $HOME/bin:\
 $HOME/.cargo/bin:\
