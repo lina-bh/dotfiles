@@ -47,18 +47,6 @@ set -o noclobber
 export QUOTING_STYLE=literal
 unset MAILCHECK
 
-alias juserctl='journalctl --user'
-alias ls='command ls -FHh --color=auto'
-alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats'
-alias userctl='systemctl --user'
-alias vim=nvim
-alias mpv='flatpak run io.mpv.Mpv'
-alias fly=flyctl
-alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW nmap'
-alias journalctl='command journalctl -e'
-alias bjournalctl='command journalctl -e -b0'
-alias devcontainer='command devcontainer --workspace-folder=. --docker-path=podman'
-
 precmd() {
     local exit=$?
     ps1_status=
@@ -66,10 +54,40 @@ precmd() {
 }
 PROMPT_COMMAND="precmd; ${PROMPT_COMMAND}"
 
-ps1_host='\h'
-[[ -n $CONTAINER_ID ]] && ps1_host="$CONTAINER_ID"
-[[ $TERM != dumb ]] && PS1='\[\e]0;\u@'"$ps1_host"':\w\a\]'
-[[ -n $SSH_CLIENT || -n $container && $container != 'flatpak' ]] && PS1="$PS1"'\u@'"$ps1_host"' '
-PS1="$PS1"'$([[ -n "$(jobs -p)" ]] && echo -n "%\j ")$ps1_status\w \$ '
+prompt_() {
+  local host title hoststring
+  host="$([[ -n $CONTAINER_ID ]] && echo -n "$CONTAINER_ID" || echo -n '\h')"
+  title="$([[ $TERM != dumb ]] && printf '\[\e]0;\\u@%s:\w\a\]' "$host")"
+  hoststring="$([[ -n $SSH_CLIENT || -n $container && $container != flatpak ]] && printf '%s\\u@%s ' "$PS1" "$host")"
+  printf '%s%s$ps1_status\w \$ ' "$title" "$hoststring"
+}
+PS1="$(prompt_)"
+
+alias juserctl='journalctl --user'
+alias ls='command ls -FHh --color=auto'
+alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
+alias userctl='systemctl --user'
+alias vim=nvim
+alias mpv='flatpak run io.mpv.Mpv'
+alias fly=flyctl
+alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
+alias journalctl='command journalctl -e'
+alias bjournalctl='command journalctl -e -b0'
+alias devcontainer='command devcontainer --workspace-folder=. --docker-path=podman'
+alias ollama='podman exec -it systemd-ollama ollama'
+alias podlet='podman run --rm -it ghcr.io/containers/podlet'
+
+if [[ -r /usr/share/bash-completion/bash_completion ]]; then
+  . /usr/share/bash-completion/bash_completion
+
+  _completion_loader systemctl
+  _userctl() {
+    COMP_WORDS=(systemctl --user "${COMP_WORDS[@]:1}")
+    (( COMP_CWORD += 1 ))
+    _systemctl
+  }
+  complete -F _userctl userctl
+fi
+command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
