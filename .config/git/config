@@ -1,11 +1,13 @@
 [alias]
-ci = "commit"
-st = "status"
-upsub = "!git submodule update --init --recursive"
+	ci = "commit"
+	st = "status"
+	upsub = "!git submodule update --init --recursive"
+	checkin = "!git commit -m '' --allow-empty-message"
 
 [user]
-email = "36717206+lina-bh@users.noreply.github.com"
-name = "lina-bh"
-useConfigOnly = true
+	email = "36717206+lina-bh@users.noreply.github.com"
+	name = "lina-bh"
+	useConfigOnly = true
+
 [init]
 	defaultBranch = main

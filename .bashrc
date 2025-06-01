@@ -42,10 +42,14 @@ shopt -s globstar
 shopt -s checkjobs
 shopt -s no_empty_cmd_completion
 shopt -s direxpand
+shopt -s cdable_vars
 set -o noclobber
 
 export QUOTING_STYLE=literal
 unset MAILCHECK
+
+steamapps_common="${HOME}/.local/share/Steam/steamapps/"
+tf="${steamapps_common}/Team Fortress 2/tf/"
 
 precmd() {
     local exit=$?
@@ -87,7 +91,20 @@ if [[ -r /usr/share/bash-completion/bash_completion ]]; then
     _systemctl
   }
   complete -F _userctl userctl
+
+  _completion_loader journalctl
+  _juserctl() {
+    COMP_WORDS=(journalctl --user "${COMP_WORDS[@]:1}")
+    (( COMP_CWORD += 1 ))
+    _journalctl
+  }
 fi
 command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
+
+(
+  if command -v ssh-agent && ! ssh-add -l >/dev/null; then
+    ssh-add -q "${HOME}/.ssh/github"
+  fi
+) >/dev/null

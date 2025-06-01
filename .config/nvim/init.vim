@@ -26,6 +26,7 @@ nnoremap q <Nop>
 
 augroup FileHooks
   autocmd!
+  autocmd FileType gitconfig setl noet sw=8
 augroup END
 
 colorscheme vim
