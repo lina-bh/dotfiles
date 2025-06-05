@@ -62,7 +62,7 @@ prompt_() {
   local host title hoststring
   host="$([[ -n $CONTAINER_ID ]] && echo -n "$CONTAINER_ID" || echo -n '\h')"
   title="$([[ $TERM != dumb ]] && printf '\[\e]0;\\u@%s:\w\a\]' "$host")"
-  hoststring="$([[ -n $SSH_CLIENT || -n $container && $container != flatpak ]] && printf '\u@%s ' "$host")"
+  hoststring="$([[ -n $SSH_CLIENT || -n $container && $container != flatpak ]] && printf '\\u@%s ' "$host")"
   printf '%s%s$ps1_status\w \$ ' "$title" "$hoststring"
 }
 PS1="$(prompt_)"
