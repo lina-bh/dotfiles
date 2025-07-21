@@ -48,8 +48,9 @@ set -o noclobber
 export QUOTING_STYLE=literal
 unset MAILCHECK
 
-steamapps_common="${HOME}/.local/share/Steam/steamapps/"
+steamapps_common="/mnt/steamapps/SteamLibrary/steamapps/common/"
 tf="${steamapps_common}/Team Fortress 2/tf/"
+renderD128="/sys/class/drm/renderD128/device"
 
 precmd() {
     local exit=$?
@@ -80,6 +81,10 @@ alias bjournalctl='command journalctl -e -b0'
 alias devcontainer='command devcontainer --workspace-folder=. --docker-path=podman'
 alias ollama='podman exec -it systemd-ollama ollama'
 alias podlet='podman run --rm -it ghcr.io/containers/podlet'
+alias zstd='command zstd -T0 --adapt --exclude-compressed'
+alias virsh='command virsh -c qemu:///system'
+alias kg='kubectl get'
+alias kdes='kubectl describe'
 
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then
   . /usr/share/bash-completion/bash_completion
@@ -98,6 +103,7 @@ if [[ -r /usr/share/bash-completion/bash_completion ]]; then
     (( COMP_CWORD += 1 ))
     _journalctl
   }
+  complete -F _juserctl juserctl
 fi
 command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 
