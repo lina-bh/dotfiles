@@ -23,22 +23,24 @@ alias userctl='systemctl --user'
 alias juserctl='command journalctl --user'
 alias journalctl='command journalctl -e'
 alias k='kubectl'
-alias ka='kubectl apply'
-alias kd='kubectl delete -f'
 alias kdel='kubectl delete'
-alias kdiff='kubectl diff'
 alias kex='kubectl explain'
-alias ko='kubectl get -o=yaml'
-alias kg='kubectl get'
+alias kg='kubectl get -o=yaml'
 alias kdes='kubectl describe'
-alias kro='kubectl rollout'
 alias klog='kubectl logs'
-alias kres='kubectl rollout restart'
 alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
 alias vim=nvim
 alias mpv='flatpak run io.mpv.Mpv'
-alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
+#alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
+alias devcontainer='command devcontainer --docker-path=podman'
+alias ujust='just --justfile /usr/share/ublue-os/justfile'
+alias kustomize='kubectl kustomize'
+alias vi='nvi'
+alias kk='kubectl apply -k'
+alias ts='tailscale status'
+alias kapply='kubectl apply'
+alias kdiff='kubectl diff'
 
 kn() {
   1="${1:-default}"
@@ -46,7 +48,7 @@ kn() {
   echo "$1"
 }
 
-steamapps="/mnt/steamapps/SteamLibrary/steamapps"
+steamapps="${HOME}/.local/share/Steam/steamapps/"
 tf="${steamapps}/common/Team Fortress 2/tf"
 
 vterm_printf() {
@@ -72,6 +74,8 @@ autoload -Uz add-zsh-hook
 autoload -Uz compinit && compinit
 (( $+commands[tailscale] )) && eval "$(tailscale completion zsh)"
 (( $+commands[uv] )) && eval "$(uv generate-shell-completion zsh)"
+(( $+commands[podman] )) && eval "$(podman completion zsh)"
+(( $+commands[just] )) && eval "$(just --completions zsh)"
 
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search

@@ -48,8 +48,8 @@ set -o noclobber
 export QUOTING_STYLE=literal
 unset MAILCHECK
 
-steamapps_common="/mnt/steamapps/SteamLibrary/steamapps/common/"
-tf="${steamapps_common}/Team Fortress 2/tf/"
+steamapps="${HOME}/.local/share/Steam/steamapps/"
+tf="${steamapps}/common/Team Fortress 2/tf/"
 renderD128="/sys/class/drm/renderD128/device"
 
 precmd() {

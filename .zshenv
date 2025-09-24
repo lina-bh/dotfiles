@@ -3,6 +3,7 @@ fix_path() {
   path=(
     ~/bin
     ~/.cargo/bin
+    /home/linuxbrew/.linuxbrew/opt/rustup/bin
     ~/.local/bin
     ~/.bun/bin
     $path
