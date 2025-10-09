@@ -1,5 +1,5 @@
 twitch-low-latency
-player=/var/lib/flatpak/exports/bin/io.mpv.Mpv
+player=mpv
 player-args=--no-cache --cache-secs=0 --profile=low-latency
 #player-passthrough=http
 hls-live-edge=1

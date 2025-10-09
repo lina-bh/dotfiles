@@ -11,7 +11,7 @@ $PATH:\
 /usr/local/sbin:/usr/sbin:/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin"
-export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/profile/share:$XDG_DATA_DIRS:/home/linuxbrew/.linuxbrew/share"
+#export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/profile/share:$XDG_DATA_DIRS:/home/linuxbrew/.linuxbrew/share"
 export EDITOR=nvim
 export SUDO_EDITOR=vi
 export HOMEBREW_NO_ANALYTICS=1
@@ -73,7 +73,7 @@ alias ls='command ls -FHh --color=auto'
 alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
 alias userctl='systemctl --user'
 alias vim=nvim
-alias mpv='flatpak run io.mpv.Mpv'
+#alias mpv='flatpak run io.mpv.Mpv'
 alias fly=flyctl
 alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
 alias journalctl='command journalctl -e'

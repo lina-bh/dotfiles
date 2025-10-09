@@ -11,6 +11,7 @@ setopt no_hup
 setopt auto_pushd
 setopt promptsubst
 setopt cdablevars
+setopt no_auto_remove_slash
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 REPORTTIME=4
@@ -30,13 +31,13 @@ alias kdes='kubectl describe'
 alias klog='kubectl logs'
 alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
 alias vim=nvim
-alias mpv='flatpak run io.mpv.Mpv'
+#alias mpv='flatpak run io.mpv.Mpv'
 #alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 alias devcontainer='command devcontainer --docker-path=podman'
 alias ujust='just --justfile /usr/share/ublue-os/justfile'
 alias kustomize='kubectl kustomize'
-alias vi='nvi'
+#alias vi='nvi'
 alias kk='kubectl apply -k'
 alias ts='tailscale status'
 alias kapply='kubectl apply'
