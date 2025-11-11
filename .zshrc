@@ -12,6 +12,7 @@ setopt auto_pushd
 setopt promptsubst
 setopt cdablevars
 setopt no_auto_remove_slash
+setopt no_nomatch
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 REPORTTIME=4
