@@ -13,7 +13,7 @@ $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin"
 #export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/profile/share:$XDG_DATA_DIRS:/home/linuxbrew/.linuxbrew/share"
 export EDITOR=nvim
-export SUDO_EDITOR=vi
+#export SUDO_EDITOR=vi
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_EMOJI=1
@@ -108,9 +108,3 @@ fi
 command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
-
-(
-  if command -v ssh-agent && ! ssh-add -l >/dev/null; then
-    ssh-add -q "${HOME}/.ssh/github"
-  fi
-) >/dev/null
