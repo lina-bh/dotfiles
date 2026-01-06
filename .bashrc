@@ -1,39 +1,84 @@
+# shellcheck shell=bash
+# TODO: switch this around if i ever get another mac
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
+export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
+[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
 PATH="\
 $HOME/bin:\
 $HOME/.cargo/bin:\
+${HOMEBREW_PREFIX}/opt/rustup/bin:\
 $HOME/.local/bin:\
 $HOME/.bun/bin:\
 $HOME/.local/state/nix/profiles/profile/bin:\
 /nix/var/nix/profiles/default/bin:\
-/home/linuxbrew/.linuxbrew/bin:\
-/home/linuxbrew/.linuxbrew/sbin:\
+${HOMEBREW_PREFIX}/bin:\
+${HOMEBREW_PREFIX}/sbin:\
 $PATH:\
 /usr/local/sbin:/usr/sbin:/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin"
-#export XDG_DATA_DIRS="$HOME/.local/state/nix/profiles/profile/share:$XDG_DATA_DIRS:/home/linuxbrew/.linuxbrew/share"
-export EDITOR=nvim
-#export SUDO_EDITOR=vi
+export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share${XDG_DATA_DIRS:+:}${XDG_DATA_DIRS}"
+if command -v nvim >/dev/null; then
+  export EDITOR=nvim
+else
+  export EDITOR=vi
+fi
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_EMOJI=1
 export NIX_SHELL_PRESERVE_PROMPT=1
+export NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=
 export NO_AT_BRIDGE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-cleanup_PATH() {
-  PATH="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$PATH")"
-  export PATH
-}
-trap cleanup_PATH RETURN
-
-command -v fnm >/dev/null && eval "$(fnm env --shell bash)"
+export SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+export DIRENV_WARN_TIMEOUT='1h'
 
 [[ $- == *i* ]] || return
 
 HISTCONTROL=ignoreboth:erasedups
 HISTFILESIZE=100000
 HISTSIZE=10000
+HISTFILE="${HOME}/.bash_history"
+
+export QUOTING_STYLE=literal
+unset MAILCHECK
+
+steamapps="/mnt/games/SteamLibrary/steamapps"
+tf="${steamapps}/common/Team Fortress 2/tf/"
+renderD128="/sys/class/drm/renderD128/device"
+
+alias devcontainer='command devcontainer --docker-path=podman'
+alias fly=flyctl
+alias juserctl='journalctl --user'
+alias k='kubectl'
+alias kapply='kubectl apply'
+alias kdel='kubectl delete'
+alias kdes='kubectl describe'
+alias kdiff='kubectl diff'
+alias kex='kubectl explain'
+alias kg='kubectl get -o=yaml'
+alias kk='kubectl apply -k'
+alias klog='kubectl logs'
+alias kustomize='kubectl kustomize'
+alias ls='command ls -FHh --color=auto'
+alias podlet='podman run --rm -it ghcr.io/containers/podlet'
+alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
+alias ts='tailscale status'
+alias userctl='systemctl --user'
+alias zstd='command zstd -T0 --adapt --exclude-compressed'
+command -v nvim >/dev/null && alias vim=nvim
+command -v mpv >/dev/null || alias mpv='flatpak run io.mpv.Mpv'
+
+[[ -z $BASH_VERSION ]] && return
+
+cleanup_PATH() {
+  PATH="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$PATH")"
+  XDG_DATA_DIRS="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$XDG_DATA_DIRS")"
+  export PATH 
+  export XDG_DATA_DIRS
+}
+trap cleanup_PATH RETURN
 
 shopt -s histappend
 shopt -s checkwinsize
@@ -44,13 +89,6 @@ shopt -s no_empty_cmd_completion
 shopt -s direxpand
 shopt -s cdable_vars
 set -o noclobber
-
-export QUOTING_STYLE=literal
-unset MAILCHECK
-
-steamapps="${HOME}/.local/share/Steam/steamapps/"
-tf="${steamapps}/common/Team Fortress 2/tf/"
-renderD128="/sys/class/drm/renderD128/device"
 
 precmd() {
     local exit=$?
@@ -67,24 +105,6 @@ prompt_() {
   printf '%s%s$ps1_status\w \$ ' "$title" "$hoststring"
 }
 PS1="$(prompt_)"
-
-alias juserctl='journalctl --user'
-alias ls='command ls -FHh --color=auto'
-alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
-alias userctl='systemctl --user'
-alias vim=nvim
-#alias mpv='flatpak run io.mpv.Mpv'
-alias fly=flyctl
-alias nmap='podman run --rm --interactive --tty --cap-add=CAP_NET_RAW localhost/nmap'
-alias journalctl='command journalctl -e'
-alias bjournalctl='command journalctl -e -b0'
-alias devcontainer='command devcontainer --workspace-folder=. --docker-path=podman'
-alias ollama='podman exec -it systemd-ollama ollama'
-alias podlet='podman run --rm -it ghcr.io/containers/podlet'
-alias zstd='command zstd -T0 --adapt --exclude-compressed'
-alias virsh='command virsh -c qemu:///system'
-alias kg='kubectl get'
-alias kdes='kubectl describe'
 
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then
   . /usr/share/bash-completion/bash_completion
@@ -105,6 +125,8 @@ if [[ -r /usr/share/bash-completion/bash_completion ]]; then
   }
   complete -F _juserctl juserctl
 fi
-command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 
+command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
+
+true

@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "hook": {
+    "path": "/home/lina/.config/containers/oci/hooks.d/tsonly.sh"
+  },
+  "when": {
+    "annotations": {
+      "^tailscale_only$": "^(true|1)$"
+    }
+  },
+  "stages": ["createContainer"]
+}

@@ -10,8 +10,14 @@ for target in $dotfiles; do
 	[[ "$linkdir" != ".." ]] && mkdir -pv "$linkdir"
 	ln -sfv "$target" "$link"
 done
+hardlink() {
+  local path=$1
+  ln -fv "$toplevel/$path" "${HOME}/$path"
+  return $?
+}
+hardlink ".config/containers/systemd/serve/mullvad.json"
+hardlink ".config/mpv/mpv.conf"
+hardlink ".config/containers/oci/hooks.d/tsonly.sh"
 set -x
 echo clear > "${HOME}/.bash_logout"
 rm "${HOME}/.bash_profile" 2>/dev/null || :
-ln -f "$toplevel/.config/MangoHud/MangoHud.conf" "$HOME/.config/MangoHud/MangoHud.conf"
-ln -f "$toplevel/.config/mpv/mpv.conf" "$HOME/.config/mpv/mpv.conf"

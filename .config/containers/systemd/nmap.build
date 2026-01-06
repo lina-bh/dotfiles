@@ -1,5 +1,0 @@
-[Build]
-ImageTag=nmap
-Pull=newer
-SetWorkingDirectory=nmap
-PodmanArgs=--squash

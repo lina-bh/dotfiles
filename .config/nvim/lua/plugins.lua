@@ -43,6 +43,8 @@ pckr.add {
           lsp_format = "fallback",
           -- async = true,
         },
+
+        notify_no_formatters = false,
       }
 
       vim.api.nvim_create_user_command("Format", function(args)
@@ -69,7 +71,7 @@ pckr.add {
 
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()
-          lint.try_lint()
+          lint.try_lint(nil, { ignore_errors = true })
         end,
       })
     end,

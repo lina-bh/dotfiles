@@ -27,6 +27,10 @@ nnoremap q <Nop>
 augroup FileHooks
   autocmd!
   autocmd FileType gitconfig setl noet sw=8
+  autocmd BufRead,BufNewFile *.pod set filetype=systemd
+  autocmd BufRead,BufNewFile *.container set filetype=systemd
+  autocmd BufRead,BufNewFile *.volume set filetype=systemd
+  autocmd BufRead,BufNewFile *.network set filetype=systemd
 augroup END
 
 colorscheme vim
