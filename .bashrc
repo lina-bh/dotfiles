@@ -12,10 +12,10 @@ $HOME/.local/bin:\
 $HOME/.bun/bin:\
 $HOME/.local/state/nix/profiles/profile/bin:\
 /nix/var/nix/profiles/default/bin:\
-${HOMEBREW_PREFIX}/bin:\
-${HOMEBREW_PREFIX}/sbin:\
 $PATH:\
 /usr/local/sbin:/usr/sbin:/sbin:\
+${HOMEBREW_PREFIX}/bin:\
+${HOMEBREW_PREFIX}/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin"
 export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share${XDG_DATA_DIRS:+:}${XDG_DATA_DIRS}"
@@ -33,6 +33,7 @@ export NO_AT_BRIDGE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
 export DIRENV_WARN_TIMEOUT='1h'
+export OPENAI_HOST='http://localhost:8079'
 
 [[ $- == *i* ]] || return
 
@@ -62,13 +63,15 @@ alias kk='kubectl apply -k'
 alias klog='kubectl logs'
 alias kustomize='kubectl kustomize'
 alias ls='command ls -FHh --color=auto'
-alias podlet='podman run --rm -it ghcr.io/containers/podlet'
+alias podlet='podman run --rm --security-opt=no-new-privileges --read-only --read-only-tmpfs=false --cgroups=disabled --userns=nomap --ipc=none --network=none --pull=newer ghcr.io/containers/podlet'
 alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
 alias ts='tailscale status'
 alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || alias mpv='flatpak run io.mpv.Mpv'
+
+. "${HOMEBREW_REPOSITORY}/Library/Homebrew/command-not-found/handler.sh" 2>/dev/null
 
 [[ -z $BASH_VERSION ]] && return
 

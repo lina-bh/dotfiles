@@ -2,19 +2,17 @@
 set -euo pipefail
 worktree="$(dirname "$0")"
 toplevel="$(git --git-dir="${worktree}/.git" --work-tree="${worktree}" rev-parse --show-toplevel)"
-dotfiles="$(find "$toplevel" -regextype sed -type f -regex "$toplevel"'/\..*' ! -regex "$toplevel"'/.git.*')"
-for target in $dotfiles; do
-	dotpath="${target#"$toplevel"/}"
-	link="${HOME}/$dotpath"
-	linkdir="$(dirname "$link")"
-	[[ "$linkdir" != ".." ]] && mkdir -pv "$linkdir"
-	ln -sfv "$target" "$link"
-done
-hardlink() {
-  local path=$1
-  ln -fv "$toplevel/$path" "${HOME}/$path"
-  return $?
+symlink() {
+  # strip leading ${toplevel}/ from $1
+  local path="${HOME}/${1#"$toplevel"/}"
+  mkdir -pv "$(dirname "$path")"
+  ln -sfv "$target" "$path"
 }
+hardlink() {
+  ln -fv "$toplevel/${1}" "${HOME}/${1}"
+}
+find "$toplevel" -regextype sed -type f -regex "$toplevel"'/\..*' ! -regex "$toplevel"'/.git.*' | while read -r target; do symlink "$target"; done
+find "$toplevel"/bin -maxdepth 1 -type f | while read -r target; do symlink "$target"; done
 hardlink ".config/containers/systemd/serve/mullvad.json"
 hardlink ".config/mpv/mpv.conf"
 hardlink ".config/containers/oci/hooks.d/tsonly.sh"

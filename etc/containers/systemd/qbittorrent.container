@@ -8,10 +8,11 @@ AutoUpdate=registry
 Environment=QBT_LEGAL_NOTICE=confirm
 NoNewPrivileges=true
 ReadOnly=true
-Mount=type=volume,source=qbittorrent-config.volume,destination=/config/qBittorrent
-Mount=type=bind,source=%h/Videos,destination=%h/Videos
+Mount=type=volume,source=qbittorrent.volume,destination=/config/qBittorrent
+Mount=type=bind,source=/home/lina/Videos,destination=/home/lina/Videos
 StopTimeout=30
-UserNS=keep-id
+User=1000:1000
+UserNS=auto:uidmapping=1000:1000
 Network=container:gluetun
 SecurityLabelDisable=true
 PublishPort=127.0.0.1:8080:8080/tcp
