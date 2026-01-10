@@ -1,0 +1,19 @@
+[misc]
+disable = ["system", "flatpak", "brew_cask", "brew_formula", "firmware", "waydroid", "containers"] 
+pre_sudo = true
+
+# remote_topgrades = ["toothless", "pi", "parnas"]
+# remote_topgrade_path = ".cargo/bin/topgrade"
+# ssh_arguments = "-o ConnectTimeout=2"
+
+assume_yes = true
+no_retry = true
+
+# Run inside tmux (default: false)
+# run_in_tmux = true
+
+# Cleanup temporary or old files (default: false)
+# cleanup = true
+
+
+no_self_update = true
