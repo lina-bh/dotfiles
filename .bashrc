@@ -4,11 +4,13 @@ export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
 export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
 [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+export PNPM_HOME="${HOME}/.local/share/pnpm"
 PATH="\
 $HOME/bin:\
 $HOME/.cargo/bin:\
 ${HOMEBREW_PREFIX}/opt/rustup/bin:\
 $HOME/.local/bin:\
+$PNPM_HOME:\
 $HOME/.bun/bin:\
 $HOME/.local/state/nix/profiles/profile/bin:\
 /nix/var/nix/profiles/default/bin:\
@@ -45,8 +47,9 @@ HISTFILE="${HOME}/.bash_history"
 export QUOTING_STYLE=literal
 unset MAILCHECK
 
-steamapps="/mnt/games/SteamLibrary/steamapps"
-tf="${steamapps}/common/Team Fortress 2/tf/"
+steamapps="${HOME}/.local/share/Steam/steamapps"
+tf_cfg="${steamapps}/common/Team Fortress 2/tf/cfg/"
+csgo_cfg="${steamapps}/common/Counter-Strike Global Offensive/game/csgo/cfg/"
 renderD128="/sys/class/drm/renderD128/device"
 
 alias devcontainer='command devcontainer --docker-path=podman'
@@ -78,7 +81,7 @@ command -v mpv >/dev/null || alias mpv='flatpak run io.mpv.Mpv'
 cleanup_PATH() {
   PATH="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$PATH")"
   XDG_DATA_DIRS="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$XDG_DATA_DIRS")"
-  export PATH 
+  export PATH
   export XDG_DATA_DIRS
 }
 trap cleanup_PATH RETURN
