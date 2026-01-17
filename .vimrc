@@ -7,7 +7,7 @@ syntax on
 set modeline
 set hidden
 " set shada=''
-" set updatetime=300
+set updatetime=300
 set autochdir
 set autoindent
 set autoread
@@ -29,7 +29,6 @@ set nobackup
 set nohlsearch
 set noswapfile
 set notermguicolors
-set nowildmenu
 set nowritebackup
 set ruler
 set scrolloff=1
@@ -43,7 +42,9 @@ set splitbelow
 set splitright
 set ttyfast
 " set viminfo='0,h ",n~/.cache/viminfo
-set wildmode=longest,list
+set wildmenu
+set wildmode=lastused,full
+set wildoptions=
 set wrap
 
 if !has('nvim')
@@ -62,8 +63,24 @@ noremap j gj
 noremap k gk
 tnoremap <Esc> <C-\><C-n>
 nnoremap <M-,> <C-t>
+noremap <C-a> <Home>
+noremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+imap <C-w> <Esc><C-w>
+inoremap <M-i> <C-x><C-o>
 
-augroup FileHooks
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Esc> pumvisible() ? "\<C-e>\<Esc>" : "\<Esc>"
+inoremap <expr> <C-g> pumvisible() ? "\<C-e>" : "\<C-g>"
+
+command! Terminal :split<CR>|:terminal
+
+augroup my.viml
   autocmd!
   autocmd FileType gitconfig setl noet sw=8
   autocmd BufRead,BufNewFile *.pod setl filetype=systemd

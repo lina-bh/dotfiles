@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+get() {
+  if command -v curl >/dev/null; then
+    curl -fsSL "$1"
+  else
+    wget -O- "$1"
+  fi
+}
+
+download() {
+  if command -v curl >/dev/null; then
+    curl -fL --output-dir "$2" -o "$3" "$1"
+  else
+    wget -P"$2" -O"$3" "$1"
+  fi
+}
+
+extract() {
+  tmpdir="$(mktemp -d)"
+  trap 'rm -r "$tmpdir"' EXIT
+
+  download "$1" "$tmpdir" "fonts.zip"
+  unzip -o "${tmpdir}/fonts.zip" -d "${HOME}/.local/share/fonts" -x '*.md' '*.txt'
+}
+
+release="$(get 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest' | grep -m1 '"name"' | sed -re 's/.*"name":.*"(v.+)".*/\1/')"
+mkdir -p "${HOME}/.local/share/fonts"
+extract "https://github.com/ryanoasis/nerd-fonts/releases/download/${release}/CodeNewRoman.zip"
+extract "https://github.com/ryanoasis/nerd-fonts/releases/download/${release}/Iosevka.zip"
+extract "https://github.com/ryanoasis/nerd-fonts/releases/download/${release}/JetBrainsMono.zip"
+command -v fc-cache >/dev/null && fc-cache

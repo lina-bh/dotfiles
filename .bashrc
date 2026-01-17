@@ -19,7 +19,12 @@ $PATH:\
 ${HOMEBREW_PREFIX}/bin:\
 ${HOMEBREW_PREFIX}/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
-/var/lib/flatpak/exports/bin"
+/var/lib/flatpak/exports/bin:\
+${HOME}/go/bin"
+if command -v gem >/dev/null; then
+  export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+  PATH="${PATH}:${GEM_HOME}/bin"
+fi
 export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share${XDG_DATA_DIRS:+:}${XDG_DATA_DIRS}"
 if command -v nvim >/dev/null; then
   export EDITOR=nvim
@@ -28,7 +33,7 @@ else
 fi
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
-export HOMEBREW_NO_EMOJI=1
+export HOMEBREW_USE_INTERNAL_API=1
 export NIX_SHELL_PRESERVE_PROMPT=1
 export NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=
 export NO_AT_BRIDGE=1
@@ -36,6 +41,9 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
 export DIRENV_WARN_TIMEOUT='1h'
 export OPENAI_HOST='http://localhost:8079'
+export GEMINI_SANDBOX=podman
+export SANDBOX_FLAGS="--security-opt=label=disable --log-driver=none --userns=keep-id"
+export GEMINI_TELEMETRY_ENABLED=false
 
 [[ $- == *i* ]] || return
 
@@ -75,6 +83,7 @@ command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || alias mpv='flatpak run io.mpv.Mpv'
 
 . "${HOMEBREW_REPOSITORY}/Library/Homebrew/command-not-found/handler.sh" 2>/dev/null
+. "/etc/profile.d/bazzite-neofetch.sh" 2>/dev/null
 
 [[ -z $BASH_VERSION ]] && return
 

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+if ! ([ -f /etc/fw-fanctrl/config.json ] && command -v jq >/dev/null); then
+  echo "no fw-fanctrl"
+  exit 1
+fi
+
+jq -e '.defaultStrategy == "agile"' /etc/fw-fanctrl/config.json && exit 0
+
+tmpfile="$(mktemp)"
+trap 'rm "$tmpfile"' EXIT
+jq '.defaultStrategy="agile"|.strategyOnDischarging="lazy"' /etc/fw-fanctrl/config.json >"$tmpfile"
+sudo sh -xe - <<EOF
+cp "$tmpfile" /etc/fw-fanctrl/config.json
+systemctl enable --now fw-fanctrl.service
+EOF

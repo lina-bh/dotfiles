@@ -42,6 +42,7 @@ bindkeys() {
 }
 bindkeys &> /dev/null
 
+zstyle ':completion:*' rehash true
 autoload -Uz compinit && compinit
 
 (( $+commands[tailscale] )) && eval "$(tailscale completion zsh)"
