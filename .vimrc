@@ -82,6 +82,7 @@ command! Terminal :split<CR>|:terminal
 
 augroup my.viml
   autocmd!
+  autocmd BufReadPost * silent! normal! g`"zv
   autocmd FileType gitconfig setl noet sw=8
   autocmd BufRead,BufNewFile *.pod setl filetype=systemd
   autocmd BufRead,BufNewFile *.container setl filetype=systemd
