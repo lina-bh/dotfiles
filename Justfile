@@ -1,9 +1,13 @@
 DOCKER := "podman"
 
-BUILDFLAGS := env("BUILDFLAGS")
+CACHE_REPO := env("CACHE_REPO", "")
 
 image IMG +DEPS='':
-  {{DOCKER}} build --file=Dockerfile.{{IMG}} --tag={{IMG}} $(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://localhost/{}) {{BUILDFLAGS}} .
+  #!/bin/sh
+  set -eu
+  extra_flags="$(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://localhost/{}) $([ ! -z {{CACHE_REPO}} ] && printf "%s" "--cache-to={{CACHE_REPO}}/{{IMG}} --cache-from={{CACHE_REPO}}/{{IMG}}")"
+  set -x
+  {{DOCKER}} build --quiet=false --file=Dockerfile.{{IMG}} --tag={{IMG}} $extra_flags .
 
 ltex-ls-plus: (image "ltex-ls-plus")
 texlive: (image "texlive")
