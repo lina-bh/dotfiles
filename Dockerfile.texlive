@@ -5,7 +5,9 @@ RUN (set -o pipefail; curl -fsSL --insecure https://mirror.ctan.org/systems/texl
 RUN --mount=type=cache,target=/var/lib/dnf \
     --mount=type=cache,target=/var/cache/libdnf5 \
     dnf -y --setopt=install_weak_deps=False install perl-interpreter perl-File-Find perl-File-Copy perl-Time-HiRes perl-Unicode-Normalize perl-sigtrap
-RUN (cd /tmp/install-tl-2* && perl ./install-tl \
+RUN (\
+    cd /tmp/install-tl-2* && \
+    TEXLIVE_INSTALL_NO_WELCOME=1 TL_DOWNLOAD_PROGRAM=curl TL_DOWNLOAD_ARGS=-fsSLk perl ./install-tl \
     --no-gui \
     --no-continue \
     --no-src-install \
