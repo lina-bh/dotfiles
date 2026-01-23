@@ -1,0 +1,12 @@
+FROM quay.io/fedora/fedora:43 AS install
+
+RUN useradd -mU -u 1000 -s /bin/sh -d /home/user user
+
+USER 1000
+
+RUN (set -o pipefail; curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
+
+FROM scratch
+
+COPY --from=install /home/user/.cargo /.cargo
+COPY --from=install /home/user/.rustup /.rustup

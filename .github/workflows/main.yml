@@ -1,8 +1,8 @@
 on:
   push:
   workflow_dispatch:
-  schedule:
-  - cron: '0 0 * * *'
+  # schedule:
+  # - cron: '0 0 * * *'
 jobs:
   build:
     name: Build image
@@ -12,6 +12,9 @@ jobs:
       packages: write
     env:
       IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    strategy:
+      matrix:
+        image: [devcontainer]
     steps:
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@v1
@@ -20,25 +23,13 @@ jobs:
         password: ${{ github.token }}
         registry: ${{ env.IMAGE_REGISTRY }}
     - uses: actions/checkout@v4
-    - name: Buildah Action
-      id: build_image
-      uses: redhat-actions/buildah-build@v2
-      with:
-        image: devcontainer
-        tags: latest ${{ github.sha }}
-        oci: true
-        extra-args: |
-          --cache-from
-          ${{ env.IMAGE_REGISTRY }}
-          --cache-to
-          ${{ env.IMAGE_REGISTRY }}
-        containerfiles: |
-          ./Dockerfile
+    - id: build
+      run: |
+        image_id="$(just ${{ matrix.image }})"
+        echo "IMAGE_ID=$image_id" | tee -a "$GITHUB_OUTPUT"
     - name: Push To GHCR
       uses: redhat-actions/push-to-registry@v2
       with:
-        image: ${{ steps.build_image.outputs.image }}
-        tags: ${{ steps.build_image.outputs.tags }}
+        image: ${{ matrix.image }}
+        tags: latest ${{ steps.build.outputs.IMAGE_ID }}
         registry: ${{ env.IMAGE_REGISTRY }}
-        # username: ${{ github.actor }}
-        # password: ${{ github.token }}

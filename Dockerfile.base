@@ -1,0 +1,16 @@
+# vim:sw=4:sts=4:et
+ARG FEDORA_RELEASE=43
+
+FROM quay.io/fedora/fedora:${FEDORA_RELEASE} AS base
+
+RUN --mount=type=cache,target=/var/lib/dnf \
+    --mount=type=cache,target=/var/cache/libdnf5 \
+    dnf -y copr enable petersen/nix && \
+    dnf -y install \
+        mandoc \
+        sudo \
+        git-core \
+        uv \
+        zsh \
+        gcc \
+        ;
