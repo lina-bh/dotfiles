@@ -12,7 +12,6 @@ jobs:
       packages: write
     env:
       IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
-      BUILDFLAGS: --cache-to=${{ env.IMAGE_REGISTRY }} --cache-from=${{ env.IMAGE_REGISTRY }}
     strategy:
       matrix:
         image: [devcontainer]
@@ -27,6 +26,7 @@ jobs:
     - uses: extractions/setup-just@v3
     - id: build
       run: |
+        export BUILDFLAGS="--cache-to=${{ env.IMAGE_REGISTRY }} --cache-from=${{ env.IMAGE_REGISTRY }}"
         image_id="$(just ${{ matrix.image }})"
         echo "IMAGE_ID=$image_id" | tee -a "$GITHUB_OUTPUT"
     - name: Push To GHCR
