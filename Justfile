@@ -1,7 +1,9 @@
 DOCKER := "podman"
 
+BUILDFLAGS := env("BUILDFLAGS")
+
 image IMG +DEPS='':
-  {{DOCKER}} build --file=Dockerfile.{{IMG}} --tag={{IMG}} $(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://localhost/{}) .
+  {{DOCKER}} build --file=Dockerfile.{{IMG}} --tag={{IMG}} $(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://localhost/{}) {{BUILDFLAGS}} .
 
 ltex-ls-plus: (image "ltex-ls-plus")
 texlive: (image "texlive")
