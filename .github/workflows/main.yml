@@ -26,7 +26,7 @@ jobs:
     - uses: extractions/setup-just@v3
     - id: build
       run: |
-        export BUILDFLAGS="--cache-to=${{ env.IMAGE_REGISTRY }} --cache-from=${{ env.IMAGE_REGISTRY }}"
+        export BUILDFLAGS="--layers --cache-to=${{ env.IMAGE_REGISTRY }}/cache --cache-from=${{ env.IMAGE_REGISTRY }}/cache"
         image_id="$(just ${{ matrix.image }})"
         echo "IMAGE_ID=$image_id" | tee -a "$GITHUB_OUTPUT"
     - name: Push To GHCR
