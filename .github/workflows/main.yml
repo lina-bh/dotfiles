@@ -24,14 +24,13 @@ jobs:
         registry: ${{ env.IMAGE_REGISTRY }}
     - uses: actions/checkout@v4
     - uses: extractions/setup-just@v3
-    - id: build
+    - name: just ${{ matrix.image }}
+      id: build
       run: |
-        export CACHE_REPO="${{ env.IMAGE_REGISTRY }}"
-        image_id="$(just ${{ matrix.image }} | tail -n1)"
-        echo "IMAGE_ID=$image_id" | tee -a "$GITHUB_OUTPUT"
+        just ${{ matrix.image }}
     - name: Push To GHCR
       uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ matrix.image }}
-        tags: latest ${{ steps.build.outputs.IMAGE_ID }}
+        tags: latest
         registry: ${{ env.IMAGE_REGISTRY }}

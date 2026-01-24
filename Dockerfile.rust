@@ -1,10 +1,10 @@
-FROM quay.io/fedora/fedora:43 AS install
+FROM docker.io/library/alpine:edge AS install
 
-RUN useradd -mU -u 1000 -s /bin/sh -d /home/user user
+RUN adduser -u 1000 -h /home/user -D user
 
 USER 1000
 
-RUN (set -o pipefail; curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
+RUN (wget -qO- https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
 
 FROM scratch
 

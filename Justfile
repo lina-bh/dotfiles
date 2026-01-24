@@ -1,19 +1,23 @@
 DOCKER := "podman"
 
-CACHE_REPO := env("CACHE_REPO", "")
+CI := env("CI", "false")
 
-image IMG +DEPS='':
+GITHUB_REPOSITORY_OWNER := env("GITHUB_REPOSITORY_OWNER", "lina-bh")
+
+REPO := "ghcr.io/" + GITHUB_REPOSITORY_OWNER
+
+build IMG +DEPS='':
   #!/bin/sh
-  set -eu
-  extra_flags="$(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://localhost/{}) $([ ! -z {{CACHE_REPO}} ] && printf "%s" "--cache-to={{CACHE_REPO}}/{{IMG}} --cache-from={{CACHE_REPO}}/{{IMG}}")"
+  set -u
+  extra_flags="$(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://{{ if CI == "true" { REPO } else { "localhost" } }}/{}){{ if CI == "true" { "--cache-to=" + REPO + "/" + IMG + " --cache-from=" + REPO + "/" + IMG } else { "" } }}"
   set -x
-  {{DOCKER}} build --quiet=false --file=Dockerfile.{{IMG}} --tag={{IMG}} $extra_flags .
+  {{DOCKER}} build --quiet=false --file=Dockerfile.{{IMG}} --tag={{REPO}}/{{IMG}} $extra_flags .
 
-ltex-ls-plus: (image "ltex-ls-plus")
-texlive: (image "texlive")
-base: (image "base")
-rust: (image "rust")
+ltex-ls-plus: (build "ltex-ls-plus")
+texlive: (build "texlive")
+base: (build "base")
+rust: (build "rust")
 
-toolbox: (image "base") && (image "toolbox" "base")
+toolbox: (build "base") (build "toolbox" "base")
 
-devcontainer: (image "base") (image "texlive") (image "ltex-ls-plus") (image "rust") (image "devcontainer" "base" "texlive" "ltex-ls-plus" "rust")
+devcontainer: (build "base") (build "texlive") (build "ltex-ls-plus") (build "rust") (build "devcontainer" "base" "texlive" "ltex-ls-plus" "rust")
