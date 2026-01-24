@@ -9,7 +9,7 @@ REPO := "ghcr.io/" + GITHUB_REPOSITORY_OWNER
 build IMG +DEPS='':
   #!/bin/sh
   set -u
-  extra_flags="$(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://{{ if CI == "true" { REPO } else { "localhost" } }}/{}){{ if CI == "true" { "--cache-to=" + REPO + "/" + IMG + " --cache-from=" + REPO + "/" + IMG } else { "" } }}"
+  extra_flags="$(printf '%s' '{{DEPS}}' | xargs -I{} -d' ' echo --build-context={}=docker://{{ if CI == "true" { REPO } else { "localhost" } }}/{}){{ if CI == "true" { " --cache-to=" + REPO + "/" + IMG + " --cache-from=" + REPO + "/" + IMG } else { "" } }}"
   set -x
   {{DOCKER}} build --quiet=false --file=Dockerfile.{{IMG}} --tag={{REPO}}/{{IMG}} $extra_flags .
 
