@@ -19,7 +19,7 @@ REPORTTIME=4
 WORDCHARS="${WORDCHARS//.}"
 WORDCHARS="${WORDCHARS//\/}"
 
-PROMPT="$( (( ${+SSH_CLIENT} || ${+CONTAINER_ID} )) && echo '%n@%m:')%~ %F{green}%#%f "
+PROMPT="$( (( ${+SSH_CLIENT} )) && echo '%n@%m:')$( (( ${+CONTAINER_ID} )) && echo "[${CONTAINER_ID}] ")%~ %F{green}%#%f "
 RPROMPT='%F{red}%(?..%? )%f%(1j.%j%% .)'
 
 window_title() {

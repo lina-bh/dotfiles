@@ -4,6 +4,7 @@
 	upsub = "!git submodule update --init --recursive"
 	checkin = "!git commit -m '' --allow-empty-message"
 	uni = "!git config user.name 'Lina Bhaile' && git config user.email lb2894y@gre.ac.uk && git config --local --get-regexp user"
+	cia = "commit --all"
 
 [user]
 	email = "36717206+lina-bh@users.noreply.github.com"
@@ -12,3 +13,5 @@
 
 [init]
 	defaultBranch = main
+[commit]
+	verbose = true

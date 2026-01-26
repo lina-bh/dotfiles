@@ -21,10 +21,11 @@ ${HOMEBREW_PREFIX}/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin:\
 ${HOME}/go/bin"
-if command -v gem >/dev/null; then
-  export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
-  PATH="${PATH}:${GEM_HOME}/bin"
+if [ -z "$GEM_HOME" ] && command -v gem >/dev/null; then
+  GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+  export GEM_HOME
 fi
+[ ! -z "$GEM_HOME" ] && PATH="${PATH}:${GEM_HOME}/bin"
 export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share${XDG_DATA_DIRS:+:}${XDG_DATA_DIRS}"
 if command -v nvim >/dev/null; then
   export EDITOR=nvim
@@ -36,14 +37,18 @@ export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_USE_INTERNAL_API=1
 export NIX_SHELL_PRESERVE_PROMPT=1
 export NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=
-export NO_AT_BRIDGE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
 export DIRENV_WARN_TIMEOUT='1h'
-export OPENAI_HOST='http://localhost:8079'
+SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+[ -f "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK || unset SSH_AUTH_SOCK
+
+export ANTHROPIC_AUTH_TOKEN=dummy
+export ANTHROPIC_BASE_URL='http://127.0.0.1:11434/'
 export GEMINI_SANDBOX=podman
-export SANDBOX_FLAGS="--security-opt=label=disable --log-driver=none --userns=keep-id"
 export GEMINI_TELEMETRY_ENABLED=false
+export OPENAI_API_KEY=dummy
+export OPENAI_HOST='http://127.0.0.1:11434'
+export SANDBOX_FLAGS="--security-opt=label=disable --log-driver=none --userns=keep-id"
 
 [[ $- == *i* ]] || return
 

@@ -6,8 +6,11 @@ brew "fd"
 brew "ripgrep"
 brew "aria2"
 brew "libarchive"
-brew "bun"
+brew "oven-sh/bun/bun"
 brew "htop"
+brew "gh"
+brew "uv"
+brew "direnv"
 if OS.linux?
   tap "wezterm/wezterm-linuxbrew"
   brew("wezterm/wezterm-linuxbrew/wezterm", args: ["HEAD"])
@@ -17,3 +20,4 @@ flatpak("io.mpv.Mpv", postinstall: "flatpak override --user --filesystem=xdg-con
 flatpak "com.fastmail.Fastmail"
 flatpak("com.discordapp.Discord")
 flatpak("com.github.wwmm.easyeffects")
+flatpak("org.signal.Signal")

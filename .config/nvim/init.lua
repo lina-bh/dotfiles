@@ -82,7 +82,6 @@ function plugins()
     {
       "nvim-treesitter/nvim-treesitter",
       config = function()
-        require("nvim-treesitter").install { "go" }
       end,
     },
     {
@@ -91,6 +90,7 @@ function plugins()
         vim.lsp.enable("bashls")
         vim.lsp.enable("rust_analyzer")
         vim.lsp.enable("stylua")
+        vim.lsp.enable("ty")
       end,
     },
     {

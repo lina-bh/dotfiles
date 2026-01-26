@@ -57,7 +57,7 @@ let g:maplocalleader = "\<C-x>"
 cnoremap <C-g> <C-c>
 nnoremap [b :bprev<CR>
 nnoremap ]b :bnext<CR>
-nnoremap q :q<CR>
+nnoremap q <Nop>
 noremap <F1> <Nop>
 noremap j gj
 noremap k gk
@@ -71,6 +71,8 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 imap <C-w> <Esc><C-w>
 inoremap <M-i> <C-x><C-o>
+vnoremap " c""<Esc>P
+vnoremap w iw
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -90,4 +92,5 @@ augroup my.viml
   autocmd BufRead,BufNewFile *.network setl filetype=systemd
   autocmd FileType lua,vim setl keywordprg=:help
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
+  autocmd FileType dockerfile setl sts=4 sw=4
 augroup END
