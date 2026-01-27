@@ -44,6 +44,8 @@ jobs:
         extra-args: |
           --cache-from=${{ env.TAG }}
           --cache-to=${{ env.TAG }}
+        containerfiles: |
+          ${{ inputs.containerfile }}
     - name: Push To GHCR
       uses: redhat-actions/push-to-registry@v2
       with:
