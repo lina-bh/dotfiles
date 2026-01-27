@@ -46,6 +46,8 @@ jobs:
           --cache-to=${{ env.TAG }}
         containerfiles: |
           ${{ inputs.containerfile }}
+        labels:
+          org.opencontainers.image.source=${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}
     - name: Push To GHCR
       uses: redhat-actions/push-to-registry@v2
       with:
