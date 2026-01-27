@@ -4,6 +4,7 @@ on:
     - default
     paths:
     - images/Containerfile.rust
+    - .github/workflows/rust.yml
   workflow_dispatch:
 jobs:
   build_push:

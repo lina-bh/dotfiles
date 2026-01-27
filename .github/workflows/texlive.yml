@@ -4,6 +4,7 @@ on:
     - default
     paths:
     - images/Containerfile.texlive
+    - .github/workflows/texlive.yml
   workflow_dispatch:
 jobs:
   build_push:

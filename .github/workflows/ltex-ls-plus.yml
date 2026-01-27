@@ -4,6 +4,7 @@ on:
     - default
     paths:
     - images/Containerfile.ltex-ls-plus
+    - .github/workflows/ltex-ls-plus.yml
   workflow_dispatch:
 jobs:
   build_push:
