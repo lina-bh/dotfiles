@@ -4,12 +4,12 @@ on:
     - default
     paths:
     - images/Containerfile.texlive
-    - .github/workflows/build+push.yml
+    - .github/workflows/build_push.yml
     - .github/workflows/texlive.yml
   workflow_dispatch:
 jobs:
   build_push:
-    uses: ./.github/workflows/build+push.yml
+    uses: ./.github/workflows/build_push.yml
     with:
       image: texlive
       containerfile: ./images/Containerfile.texlive

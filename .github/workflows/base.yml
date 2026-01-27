@@ -4,14 +4,14 @@ on:
     - default
     paths:
     - images/Containerfile.base
-    - .github/workflows/build+push.yml
+    - .github/workflows/build_push.yml
     - .github/workflows/base.yml
   schedule:
     - cron: "0 0 1,15 * *" # midnight on the 1st and 15th of each month
   workflow_dispatch:
 jobs:
   build_push:
-    uses: ./.github/workflows/build+push.yml
+    uses: ./.github/workflows/build_push.yml
     with:
       image: base
       containerfile: ./images/Containerfile.base
