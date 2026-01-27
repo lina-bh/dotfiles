@@ -3,11 +3,11 @@ on:
     branches:
     - default
     paths:
-    - images/Containerfile.base
+    - images/Containerfile.texlive
   workflow_dispatch:
 jobs:
   build_push:
     uses: ./.github/workflows/build+push.yml
     with:
-      image: base
-      containerfile: ./images/Containerfile.base
+      image: texlive
+      containerfile: ./images/Containerfile.texlive

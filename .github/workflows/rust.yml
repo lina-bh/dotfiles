@@ -1,0 +1,13 @@
+on:
+  push:
+    branches:
+    - default
+    paths:
+    - images/Containerfile.rust
+  workflow_dispatch:
+jobs:
+  build_push:
+    uses: ./.github/workflows/build+push.yml
+    with:
+      image: rust
+      containerfile: ./images/Containerfile.rust
