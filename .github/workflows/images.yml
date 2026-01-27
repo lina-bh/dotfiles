@@ -6,7 +6,7 @@ on:
     - images/Containerfile.base
   workflow_dispatch:
 jobs:
-  build+push:
+  build_push:
     uses: ./.github/workflows/build+push.yml
     with:
       image: base
