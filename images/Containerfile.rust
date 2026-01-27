@@ -1,10 +1,12 @@
-FROM docker.io/library/alpine:edge AS install
+ARG FEDORA_RELEASE=43
 
-RUN adduser -u 1000 -h /home/user -D user
+FROM quay.io/fedora/fedora:${FEDORA_RELEASE} AS install
+
+RUN useradd -mU -d /home/user -u 1000 user
 
 USER 1000
 
-RUN (wget -qO- https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
+RUN (curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
 
 FROM scratch
 
