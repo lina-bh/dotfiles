@@ -11,3 +11,6 @@ jobs:
     with:
       image: texlive
       containerfile: ./images/Containerfile.texlive
+permissions:
+  contents: read
+  packages: write

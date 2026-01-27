@@ -11,3 +11,6 @@ jobs:
     with:
       image: ltex-ls-plus
       containerfile: ./images/Containerfile.ltex-ls-plus
+permissions:
+  contents: read
+  packages: write

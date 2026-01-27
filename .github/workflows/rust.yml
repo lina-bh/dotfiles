@@ -11,3 +11,6 @@ jobs:
     with:
       image: rust
       containerfile: ./images/Containerfile.rust
+permissions:
+  contents: read
+  packages: write
