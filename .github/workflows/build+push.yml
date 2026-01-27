@@ -1,12 +1,14 @@
 on:
   workflow_call:
-    inputs:
+    inputs: &inputs
       image:
         required: true
         type: string
       containerfile:
         required: true
         type: string
+  workflow_dispatch:
+    inputs: *inputs
 jobs:
   build:
     name: Build image
