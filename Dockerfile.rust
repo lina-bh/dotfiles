@@ -1,0 +1,12 @@
+FROM docker.io/library/alpine:edge AS install
+
+RUN adduser -u 1000 -h /home/user -D user
+
+USER 1000
+
+RUN (wget -qO- https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
+
+FROM scratch
+
+COPY --from=install /home/user/.cargo /.cargo
+COPY --from=install /home/user/.rustup /.rustup

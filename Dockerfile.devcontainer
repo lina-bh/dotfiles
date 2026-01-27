@@ -1,0 +1,33 @@
+FROM base AS devcontainer
+
+RUN useradd -mUG wheel -s /bin/bash -u 1000 -d /home/vscode vscode && \
+    echo '#1000 ALL = NOPASSWD: ALL' > /etc/sudoers.d/vscode
+
+COPY --from=texlive /usr/local/texlive /usr/local/texlive
+RUN (\
+    texlive_path="$(find /usr/local/texlive/ -maxdepth 1 -regex '.+[0-9]+')/bin/$(uname -m)-linux/"; \
+    echo "export PATH=\"\${PATH}:${texlive_path}\"" >> /etc/bashrc && \
+    echo "Defaults secure_path = \"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${texlive_path}\"" > /etc/sudoers.d/texlive \
+    )
+
+COPY --from=ltex-ls-plus /opt/ltex-ls-plus /opt/ltex-ls-plus
+
+RUN --mount=type=cache,target=/var/lib/dnf \
+    --mount=type=cache,target=/var/cache/libdnf5 \
+    dnf -y install \
+        perl-interpreter \
+        perl-File-Find \
+        perl-File-Copy \
+        perl-Time-HiRes \
+        perl-Unicode-Normalize \
+        perl-sigtrap \
+        libxcrypt-compat \
+        java-latest-openjdk-headless \
+        && \
+        "$(find /usr/local/texlive/ -maxdepth 1 -regex '.+[0-9]+')/bin/$(uname -m)-linux/tlmgr" update --all
+
+RUN hardlink --respect-xattrs --ignore-time --mount /usr /opt
+
+USER 1000
+
+COPY --from=rust /.rustup /.cargo /home/vscode/

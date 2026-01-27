@@ -1,0 +1,13 @@
+FROM base AS toolbox
+
+COPY --from=ghcr.io/opentofu/opentofu:minimal /usr/local/bin/tofu /usr/local/bin/tofu
+
+RUN --mount=type=cache,target=/var/lib/dnf \
+    --mount=type=cache,target=/var/cache/libdnf5 \
+    dnf -y install \
+        emacs-pgtk \
+        neovim \
+        nix \
+        ;
+
+RUN hardlink --respect-xattrs --ignore-time --mount /usr /opt

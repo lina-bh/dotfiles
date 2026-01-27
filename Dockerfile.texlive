@@ -1,0 +1,39 @@
+FROM quay.io/fedora/fedora:43 AS texlive
+
+RUN (set -o pipefail; curl -fsSL --insecure https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar -xzC /tmp)
+
+RUN --mount=type=cache,target=/var/lib/dnf \
+    --mount=type=cache,target=/var/cache/libdnf5 \
+    dnf -y --setopt=install_weak_deps=False install perl-interpreter perl-File-Find perl-File-Copy perl-Time-HiRes perl-Unicode-Normalize perl-sigtrap wget
+RUN (\
+    cd /tmp/install-tl-2* && \
+    TEXLIVE_INSTALL_ENV_NOCHECK=1 TEXLIVE_INSTALL_NO_WELCOME=1 TL_DOWNLOAD_PROGRAM=curl TL_DOWNLOAD_ARGS='-fkLsSo' perl ./install-tl \
+    --no-gui \
+    --no-continue \
+    --no-src-install \
+    --no-interaction \
+    --paper=a4 \
+    --scheme=infraonly \
+    \
+    ) && "$(find /usr/local/texlive -maxdepth 1 -regex '.+[0-9]+')/bin/$(uname -m)-linux/tlmgr" install \
+        latexmk \
+        latex-bin \
+        geometry \
+        fontspec \
+        parskip \
+        kvoptions \
+        ltxcmds \
+        kvsetkeys \
+        etoolbox \
+        hyperref \
+        titlesec \
+        csquotes \
+        babel-english \
+        biblatex \
+        biber \
+        epstopdf-pkg \
+        ;
+
+FROM scratch
+
+COPY --from=texlive /usr/local/texlive /usr/local/texlive
