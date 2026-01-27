@@ -17,6 +17,6 @@ jobs:
     with:
       image: devcontainer
       containerfile: ./images/Containerfile.devcontainer
-permissions:
-  contents: read
-  packages: write
+    permissions:
+      contents: read
+      packages: write

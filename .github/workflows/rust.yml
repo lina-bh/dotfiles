@@ -4,6 +4,7 @@ on:
     - default
     paths:
     - images/Containerfile.rust
+    - .github/workflows/build+push.yml
     - .github/workflows/rust.yml
   workflow_dispatch:
 jobs:
@@ -12,6 +13,6 @@ jobs:
     with:
       image: rust
       containerfile: ./images/Containerfile.rust
-permissions:
-  contents: read
-  packages: write
+    permissions:
+      contents: read
+      packages: write
