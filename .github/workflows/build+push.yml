@@ -36,7 +36,7 @@ jobs:
       with:
         image: ${{ env.TAG }}
         context: ${{ steps.dirname.outputs.context }}
-        tags: latest ${{ env.GITHUB_SHA }}
+        tags: latest ${{ github.sha }}
         build-args: |
           FEDORA_RELEASE=43
         layers: true
@@ -47,10 +47,10 @@ jobs:
         containerfiles: |
           ${{ inputs.containerfile }}
         labels:
-          org.opencontainers.image.source=${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}
+          org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
     - name: Push To GHCR
       uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ inputs.image }}
-        tags: latest
+        tags: latest ${{ github.sha }}
         registry: ${{ env.IMAGE_REGISTRY }}
