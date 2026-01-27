@@ -6,9 +6,10 @@ on:
     - images/Containerfile.devcontainer
   image_version:
     names:
-    - ltex-ls-plus
-    - texlive
-    - rust
+    - ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER }}/base
+    - ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER }}/ltex-ls-plus
+    - ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER }}/texlive
+    - ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER }}/rust
   workflow_dispatch:
 jobs:
   build_push:
