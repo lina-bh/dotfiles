@@ -5,10 +5,18 @@ toplevel="$(git --git-dir="${worktree}/.git" --work-tree="${worktree}" rev-parse
 symlink() {
   # strip leading ${toplevel}/ from $1
   path="${HOME}/${1#"$toplevel"/}"
+  if [ ! -z "$DRYRUN" ]; then
+    echo "$path" >&2
+    return
+  fi
   mkdir -pv "$(dirname "$path")"
   ln -sfv "$target" "$path"
 }
 hardlink() {
+  if [ ! -z "$DRYRUN" ]; then
+    echo "${HOME}/${1}" >&2
+    return
+  fi
   ln -fv "$toplevel/${1}" "${HOME}/${1}"
 }
 find "$toplevel" -type f -regex "$toplevel"'/\..*' ! -regex "$toplevel"'/\.git.*' | while read -r target; do symlink "$target"; done
