@@ -73,7 +73,6 @@ function plugins()
           ensure_installed = {
             "stylua",
             "shellcheck",
-            "bash-language-server",
             "tree-sitter-cli",
           },
         }
@@ -81,16 +80,27 @@ function plugins()
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      config = function()
-      end,
+      config = function() end,
     },
     {
       "neovim/nvim-lspconfig",
       config = function()
-        vim.lsp.enable("bashls")
         vim.lsp.enable("rust_analyzer")
         vim.lsp.enable("stylua")
         vim.lsp.enable("ty")
+      end,
+    },
+    {
+      "nvimtools/none-ls.nvim",
+      requires = {
+        "gbprod/none-ls-shellcheck.nvim",
+      },
+      config = function()
+        require("null-ls").setup {
+          sources = {
+            require("none-ls-shellcheck.diagnostics"),
+          },
+        }
       end,
     },
     {
