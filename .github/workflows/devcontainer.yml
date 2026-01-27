@@ -6,10 +6,10 @@ on:
     - images/Containerfile.devcontainer
   image_version:
     names:
-    - base
-    - ltex-ls-plus
-    - texlive
-    - rust
+    - ghcr.io/lina-bh/base
+    - ghcr.io/lina-bh/ltex-ls-plus
+    - ghcr.io/lina-bh/texlive
+    - ghcr.io/lina-bh/rust
   workflow_dispatch:
 jobs:
   build_push:
