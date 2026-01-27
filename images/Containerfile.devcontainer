@@ -30,4 +30,5 @@ RUN hardlink --respect-xattrs --ignore-time --mount /usr /opt
 
 USER 1000
 
-COPY --from=ghcr.io/lina-bh/rust:latest /.rustup /.cargo /home/vscode/
+RUN (curl -fsSL https://sh.rustup.rs | \
+    sh -s -- -y --profile minimal -c rustfmt,rust-analyzer --no-modify-path)
