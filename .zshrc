@@ -51,5 +51,6 @@ autoload -Uz compinit && compinit
 (( $+commands[just] )) && eval "$(just --completions zsh)"
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 (( $+commands[rustup] )) && eval "$(rustup completions zsh)"
+(( $+commands[gh] )) && eval "$(gh completion --shell zsh)"
 
 true
