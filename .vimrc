@@ -43,8 +43,9 @@ set splitright
 set ttyfast
 " set viminfo='0,h ",n~/.cache/viminfo
 set wildmenu
-set wildmode=lastused,full
-set wildoptions=
+set wildmode=longest:full,full
+set wildoptions=fuzzy
+set wildignore=./,../
 set wrap
 
 if !has('nvim')
