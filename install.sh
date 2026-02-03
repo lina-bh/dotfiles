@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+: "${DRYRUN=}"
 worktree="$(dirname "$0")"
 toplevel="$(git --git-dir="${worktree}/.git" --work-tree="${worktree}" rev-parse --show-toplevel)"
 symlink() {

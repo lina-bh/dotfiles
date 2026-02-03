@@ -89,7 +89,7 @@ function plugins()
         vim.lsp.enable("rust_analyzer")
         vim.lsp.enable("stylua")
         vim.lsp.enable("ty")
-        vim.lsp.enable("tofu-ls")
+        vim.lsp.enable("tofu_ls")
       end,
     },
     {
