@@ -91,7 +91,9 @@ augroup my.viml
   autocmd BufRead,BufNewFile *.container setl filetype=systemd
   autocmd BufRead,BufNewFile *.volume setl filetype=systemd
   autocmd BufRead,BufNewFile *.network setl filetype=systemd
+  autocmd BufRead,BufNewFile *.rules setl sts=4 sw=4
   autocmd FileType lua,vim setl keywordprg=:help
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
   autocmd FileType dockerfile setl sts=4 sw=4
+  autocmd VimResized * wincmd =
 augroup END
