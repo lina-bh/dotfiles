@@ -26,7 +26,7 @@ if [ -z "$GEM_HOME" ] && command -v gem >/dev/null; then
   export GEM_HOME
 fi
 [ ! -z "$GEM_HOME" ] && PATH="${PATH}:${GEM_HOME}/bin"
-export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share${XDG_DATA_DIRS:-:/usr/local/share:/usr/share}"
+export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 if command -v nvim >/dev/null; then
   export EDITOR=nvim
 else
