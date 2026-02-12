@@ -95,5 +95,6 @@ augroup my.viml
   autocmd FileType lua,vim setl keywordprg=:help
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
   autocmd FileType dockerfile setl sts=4 sw=4
+  autocmd FileType sshconfig setl noet sw=8
   autocmd VimResized * wincmd =
 augroup END

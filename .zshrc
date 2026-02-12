@@ -1,4 +1,5 @@
-fpath[1,0]="${HOMEBREW_PREFIX}/share/zsh/site-functions"
+typeset -U fpath
+fpath+="${HOMEBREW_PREFIX}/share/zsh/site-functions"
 fpath+="/usr/share/zsh/site-functions"
 setopt hist_ignore_dups
 setopt hist_ignore_space
@@ -42,8 +43,9 @@ bindkeys() {
 }
 bindkeys &> /dev/null
 
+autoload -Uz compinit
+compinit
 zstyle ':completion:*' rehash true
-autoload -Uz compinit && compinit
 
 (( $+commands[tailscale] )) && eval "$(tailscale completion zsh)"
 (( $+commands[uv] )) && eval "$(uv generate-shell-completion zsh)"

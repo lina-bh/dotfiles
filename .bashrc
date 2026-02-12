@@ -85,7 +85,10 @@ alias ts='tailscale status'
 alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 command -v nvim >/dev/null && alias vim=nvim
-command -v mpv >/dev/null || alias mpv='flatpak run io.mpv.Mpv'
+command -v mpv >/dev/null || mpv() {
+  flatpak run io.mpv.Mpv "$@"
+  return $?
+}
 
 . "${HOMEBREW_REPOSITORY}/Library/Homebrew/command-not-found/handler.sh" 2>/dev/null
 . "/etc/profile.d/bazzite-neofetch.sh" 2>/dev/null
