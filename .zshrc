@@ -54,5 +54,6 @@ zstyle ':completion:*' rehash true
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 (( $+commands[rustup] )) && eval "$(rustup completions zsh)"
 (( $+commands[gh] )) && eval "$(gh completion --shell zsh)"
+(( $+commands[flux] )) && eval "$(flux completion zsh)"
 
 true

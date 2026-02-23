@@ -50,6 +50,8 @@ export OPENAI_API_KEY=dummy
 export OPENAI_HOST='http://127.0.0.1:11434'
 export SANDBOX_FLAGS="--security-opt=label=disable --log-driver=none --userns=keep-id"
 
+export BAT_STYLE=changes
+
 [[ $- == *i* ]] || return
 
 HISTCONTROL=ignoreboth:erasedups
