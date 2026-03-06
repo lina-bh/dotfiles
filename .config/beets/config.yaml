@@ -38,6 +38,6 @@ fetchart:
   sources: filesystem lastfm amazon albumart coverart
   lastfm_key: 513b4f46ab3ecbe1b1d9a9b51ddb46d4
   store_source: yes
-  enforce_ratio: yes
+  enforce_ratio: no
   deinterlace: yes
 # parallel_on_import: yes
