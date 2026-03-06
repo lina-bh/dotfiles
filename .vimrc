@@ -97,4 +97,5 @@ augroup my.viml
   autocmd FileType dockerfile setl sts=4 sw=4
   autocmd FileType sshconfig setl noet sw=8
   autocmd VimResized * wincmd =
+  autocmd FileType yaml setl indentexpr=
 augroup END

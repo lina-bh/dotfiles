@@ -86,6 +86,7 @@ alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-
 alias ts='tailscale status'
 alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
+alias la='ls -laZ'
 command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || mpv() {
   flatpak run io.mpv.Mpv "$@"
