@@ -20,7 +20,8 @@ ${HOMEBREW_PREFIX}/bin:\
 ${HOMEBREW_PREFIX}/sbin:\
 $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin:\
-${HOME}/go/bin"
+${HOME}/go/bin:\
+${HOME}/flutter/bin"
 if [ -z "$GEM_HOME" ] && command -v gem >/dev/null; then
   GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
   export GEM_HOME
@@ -79,7 +80,6 @@ alias kex='kubectl explain'
 alias kg='kubectl get -o=yaml'
 alias kk='kubectl apply -k'
 alias klog='kubectl logs'
-alias kustomize='kubectl kustomize'
 alias ls='command ls -FHh --color=auto'
 alias podlet='podman run --rm --security-opt=no-new-privileges --read-only --read-only-tmpfs=false --cgroups=disabled --userns=nomap --ipc=none --network=none --pull=newer ghcr.io/containers/podlet'
 alias rsync='command rsync --archive --xattrs --acls --hard-links --copy-unsafe-links --sparse --progress --partial --human-readable --stats --size-only'
@@ -87,6 +87,7 @@ alias ts='tailscale status'
 alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 alias la='ls -laZ'
+alias sl='ls'
 command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || mpv() {
   flatpak run io.mpv.Mpv "$@"
@@ -95,6 +96,8 @@ command -v mpv >/dev/null || mpv() {
 
 . "${HOMEBREW_REPOSITORY}/Library/Homebrew/command-not-found/handler.sh" 2>/dev/null
 . "/etc/profile.d/bazzite-neofetch.sh" 2>/dev/null
+
+command -v fnm >/dev/null && eval "$(fnm env)"
 
 [[ -z $BASH_VERSION ]] && return
 

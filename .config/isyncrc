@@ -1,0 +1,31 @@
+Sync None
+Create Near
+Expunge Near
+CopyArrivalDate yes
+
+MaildirStore home
+Path ~/Maildir/
+Inbox ~/Maildir/INBOX
+Trash ~/Maildir/Trash
+SubFolders Verbatim
+
+IMAPStore me@linabee.uk
+Host imap.fastmail.com
+UserCmd "kwallet-query kdewallet --read-password fastmail-email"
+PassCmd "kwallet-query kdewallet --read-password fastmail-imap"
+TLSType IMAPS
+
+Channel pull
+Far :me@linabee.uk:
+Near :home:
+Sync Full
+MaxMessages 0
+Patterns INBOX Sent Archive
+
+Channel push
+Far :me@linabee.uk:
+Near :home:
+Sync Push PullFlags PullGone
+Patterns Trash Drafts
+
+Group me@linabee.uk pull push

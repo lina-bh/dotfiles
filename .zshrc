@@ -38,8 +38,10 @@ bindkeys() {
  bindkey $terminfo[kdch1] delete-char
  bindkey "^[[A" up-line-or-beginning-search
  bindkey "^[[B" down-line-or-beginning-search
- bindkey $terminfo[kLFT3] backward-word
- bindkey $terminfo[kRIT3] forward-word
+ bindkey $terminfo[kLFT3] emacs-backward-word
+ bindkey $terminfo[kRIT3] emacs-forward-word
+ bindkey '^[[1;5D' emacs-backward-word
+ bindkey '^[[1;5C' emacs-forward-word
 }
 bindkeys &> /dev/null
 
@@ -55,5 +57,9 @@ zstyle ':completion:*' rehash true
 (( $+commands[rustup] )) && eval "$(rustup completions zsh)"
 (( $+commands[gh] )) && eval "$(gh completion --shell zsh)"
 (( $+commands[flux] )) && eval "$(flux completion zsh)"
+
+[[ -f "${EAT_SHELL_INTEGRATION_DIR}/zsh" ]] && \
+  . "${EAT_SHELL_INTEGRATION_DIR}/zsh" && \
+  [[ "$TERM" = "xterm-256color" ]] && __eat_enable_integration
 
 true

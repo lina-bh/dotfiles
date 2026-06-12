@@ -3,8 +3,11 @@ local action = wezterm.action
 
 config = wezterm.config_builder()
 config:set_strict_mode(false)
-config.font = wezterm.font("JetBrainsMonoNL Nerd Font")
-config.font_size = 10.0
+config.font = wezterm.font {
+  family = "IosevkaTerm Nerd Font",
+  harfbuzz_features = { 'calt=0' },
+}
+config.font_size = 10.5
 -- config.cell_width = 0.85
 config.window_padding = {
   top = 1,
@@ -22,7 +25,7 @@ config.background = {
     source = { File = wezterm.config_dir .. "/background.jpg" },
     opacity = 0.88,
     hsb = {
-      saturation = 0.5,
+      saturation = 0.8,
       brightness = 0.006,
     },
   },
@@ -85,11 +88,14 @@ end
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
   local active_pane = tab.active_pane
   return string.format(
-    " %d : %s:%s ",
+    " %d : %s ",
     tab.tab_id,
-    basename(active_pane.foreground_process_name),
-    active_pane.title or active_pane.current_working_dir
+    active_pane.title or basename(active_pane.foreground_process_name) -- active_pane.current_working_dir
   )
 end)
 
 return config
+
+-- Local Variables:
+-- lua-indent-level: 2
+-- End:

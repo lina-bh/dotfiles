@@ -7,6 +7,7 @@
 	cia = "commit --all"
 	amend = "commit --amend"
 	extend = "commit --amend --no-edit --allow-empty-message"
+	root = "rev-parse --show-toplevel"
 
 [user]
 	email = "36717206+lina-bh@users.noreply.github.com"
@@ -17,3 +18,5 @@
 	defaultBranch = main
 [commit]
 	verbose = true
+[github]
+	user = lina-bh
