@@ -11,21 +11,12 @@ SubFolders Verbatim
 
 IMAPStore me@linabee.uk
 Host imap.fastmail.com
-UserCmd "kwallet-query kdewallet --read-password fastmail-email"
+User me@linabee.uk
 PassCmd "kwallet-query kdewallet --read-password fastmail-imap"
 TLSType IMAPS
 
-Channel pull
+Channel me@linabee.uk
 Far :me@linabee.uk:
 Near :home:
 Sync Full
-MaxMessages 0
-Patterns INBOX Sent Archive
-
-Channel push
-Far :me@linabee.uk:
-Near :home:
-Sync Push PullFlags PullGone
-Patterns Trash Drafts
-
-Group me@linabee.uk pull push
+Patterns INBOX Sent Archive Trash Drafts
