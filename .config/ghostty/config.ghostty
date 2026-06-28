@@ -1,0 +1,11 @@
+cursor-color=cell-foreground
+cursor-text=cell-background
+theme = Builtin Dark
+font-family = Iosevka Term
+font-size = 10.5
+keybind = ctrl+,=unbind
+font-feature = -calt
+gtk-wide-tabs = false
+gtk-toolbar-style = flat
+command = /bin/zsh
+term = xterm-256color
