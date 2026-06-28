@@ -15,8 +15,17 @@ User me@linabee.uk
 PassCmd "kwallet-query kdewallet --read-password fastmail-imap"
 TLSType IMAPS
 
-Channel me@linabee.uk
+Channel pull
 Far :me@linabee.uk:
 Near :home:
 Sync Full
-Patterns INBOX Sent Archive Trash Drafts
+Patterns INBOX
+
+Channel push
+Far :me@linabee.uk:
+Near :home:
+Sync Push
+Patterns Sent Drafts
+
+Group me@linabee.uk
+Channels pull push

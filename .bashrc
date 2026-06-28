@@ -7,10 +7,12 @@ export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
 export PNPM_HOME="${HOME}/.local/share/pnpm"
 PATH="\
 $HOME/bin:\
+$HOME/.cabal/bin:\
+$HOME/.ghcup/bin:\
 $HOME/.cargo/bin:\
 ${HOMEBREW_PREFIX}/opt/rustup/bin:\
 $HOME/.local/bin:\
-$PNPM_HOME:\
+$PNPM_HOME/bin:\
 $HOME/.bun/bin:\
 $HOME/.local/state/nix/profiles/profile/bin:\
 /nix/var/nix/profiles/default/bin:\
@@ -42,8 +44,8 @@ export DIRENV_WARN_TIMEOUT='1h'
 SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
 [ -f "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK || unset SSH_AUTH_SOCK
 
-export ANTHROPIC_AUTH_TOKEN=dummy
-export ANTHROPIC_BASE_URL='http://127.0.0.1:11434/'
+# export ANTHROPIC_AUTH_TOKEN=dummy
+# export ANTHROPIC_BASE_URL='http://127.0.0.1:11434/'
 export GEMINI_SANDBOX=podman
 export GEMINI_TELEMETRY_ENABLED=false
 export OPENAI_API_KEY=dummy
@@ -87,6 +89,7 @@ alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 alias la='ls -laZ'
 alias sl='ls'
+alias taildrop='tailscale file get --conflict=rename --verbose '"${HOME}/Downloads"
 command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || mpv() {
   flatpak run io.mpv.Mpv "$@"
@@ -156,5 +159,7 @@ fi
 
 command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
+
+. /usr/share/doc/pkgfile/command-not-found.bash 2>&1
 
 true
