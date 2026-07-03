@@ -4,28 +4,37 @@ Expunge Near
 CopyArrivalDate yes
 
 MaildirStore home
-Path ~/Maildir/
-Inbox ~/Maildir/INBOX
-Trash ~/Maildir/Trash
+Path ~/Mail/
+Inbox ~/Mail/INBOX
+Trash ~/Mail/Trash
 SubFolders Verbatim
 
 IMAPStore me@linabee.uk
 Host imap.fastmail.com
 User me@linabee.uk
-PassCmd "kwallet-query kdewallet --read-password fastmail-imap"
+PassCmd "kwallet-query kdewallet --read-password fastmail"
 TLSType IMAPS
 
-Channel pull
+Channel inbox
 Far :me@linabee.uk:
 Near :home:
 Sync Full
 Patterns INBOX
+SyncState *
 
-Channel push
+Channel composed
 Far :me@linabee.uk:
 Near :home:
 Sync Push
 Patterns Sent Drafts
+SyncState *
+
+Channel archive
+Far :me@linabee.uk:
+Near :home:
+Sync Push
+Patterns Archive
+SyncState *
 
 Group me@linabee.uk
-Channels pull push
+Channels inbox composed archive
