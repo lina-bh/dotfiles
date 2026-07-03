@@ -6,6 +6,7 @@
 	uni = "!git config user.name 'Lina Bhaile' && git config user.email lb2894y@gre.ac.uk && git config --local --get-regexp user"
 	emacs-devel = "!git config user.name 'Lina Bhaile' && git config user.email emacs-devel@linabee.uk"
         lab = "!git config user.name 'Lina' && git config user.email 4982999-linabee@users.noreply.gitlab.com"
+        berg = "!git config user.name 'lina-bh' && git config user.email lina-bh@noreply.codeberg.org"
 	cia = "commit --all"
 	amend = "commit --amend"
 	extend = "commit --amend --no-edit --allow-empty-message"
