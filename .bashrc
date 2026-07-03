@@ -160,6 +160,7 @@ fi
 command -v tailscale >/dev/null && eval "$(tailscale completion bash)"
 command -v direnv >/dev/null && eval "$(direnv hook bash)"
 
-. /usr/share/doc/pkgfile/command-not-found.bash 2>&1
+[[ -f /usr/share/doc/pkgfile/command-not-found.bash ]] && \
+  . /usr/share/doc/pkgfile/command-not-found.bash 2>&1
 
 true

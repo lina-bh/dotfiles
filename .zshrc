@@ -62,6 +62,7 @@ zstyle ':completion:*' rehash true
   . "${EAT_SHELL_INTEGRATION_DIR}/zsh" && \
   [[ "$TERM" = "xterm-256color" ]] && __eat_enable_integration
 
-. /usr/share/doc/pkgfile/command-not-found.zsh 2>&1
+[[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]] && \
+  . /usr/share/doc/pkgfile/command-not-found.zsh
 
 true
