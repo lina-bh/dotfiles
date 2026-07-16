@@ -1,34 +1,37 @@
-cursor-color=cell-foreground
-cursor-text=cell-background
 font-family = Iosevka Term
 font-size = 10.5
 keybind = ctrl+,=unbind
 font-feature = -calt
 gtk-wide-tabs = false
-gtk-toolbar-style = flat
-command = /bin/zsh
+command = zsh
 term = xterm-256color
 app-notifications = no-clipboard-copy
 mouse-scroll-multiplier = discrete:1
+confirm-close-surface = false
+clipboard-read = allow
+background-opacity = 0.83
+background-opacity-cells = true
 palette = 0=#000000
-palette = 1=#cc0403
-palette = 2=#19cb00
-palette = 3=#cecb00
-palette = 4=#0d73cc
-palette = 5=#cb1ed1
-palette = 6=#0dcdcd
-palette = 7=#dddddd
-palette = 8=#767676
-palette = 9=#f2201f
-palette = 10=#23fd00
-palette = 11=#fffd00
-palette = 12=#1a8fff
-palette = 13=#fd28ff
-palette = 14=#14ffff
+palette = 1=#ff5f59
+palette = 2=#44bc44
+palette = 3=#d0bc00
+palette = 4=#2fafff
+palette = 5=#feacd0
+palette = 6=#00d3d0
+palette = 7=#a6a6a6
+palette = 8=#595959
+palette = 9=#ff7f9f
+palette = 10=#00c06f
+palette = 11=#fec43f
+palette = 12=#79a8ff
+palette = 13=#b6a0ff
+palette = 14=#6ae4b9
 palette = 15=#ffffff
 background = #000000
-foreground = #dddddd
-cursor-color = #cccccc
-cursor-text = #111111
-selection-background = #fffacd
-selection-foreground = #000000
+foreground = #ffffff
+cursor-color = #ffffff
+cursor-text = #000000
+selection-background = #5a5a5a
+selection-foreground = #ffffff
+cursor-color=cell-foreground
+cursor-text=cell-background
