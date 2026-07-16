@@ -1,9 +1,13 @@
-# shellcheck shell=bash
+# shellcheck shell=bash disable=SC2034,SC1091
 # TODO: switch this around if i ever get another mac
-export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+if [[ "$OSTYPE" = linux* ]]; then
+  HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+else
+  HOMEBREW_PREFIX="/opt/homebrew"
+fi
+export HOMEBREW_PREFIX
 export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
 export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
-[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
 export PNPM_HOME="${HOME}/.local/share/pnpm"
 PATH="\
 $HOME/bin:\
@@ -24,25 +28,57 @@ $HOME/.local/share/flatpak/exports/bin:\
 /var/lib/flatpak/exports/bin:\
 ${HOME}/go/bin:\
 ${HOME}/flutter/bin"
+export MANPATH="${HOMEBREW_PREFIX}/share/man:${MANPATH#:}"
+export INFOPATH="${HOMEBREW_PREFIX}/share/info:${INFOPATH:-}"
 if [ -z "$GEM_HOME" ] && command -v gem >/dev/null; then
   GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
   export GEM_HOME
 fi
 [ ! -z "$GEM_HOME" ] && PATH="${PATH}:${GEM_HOME}/bin"
 export XDG_DATA_DIRS="${HOMEBREW_PREFIX}/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-if command -v nvim >/dev/null; then
-  export EDITOR=nvim
-else
-  export EDITOR=vi
+texlive="$(files=(/usr/local/texlive/????/); printf '%s' "${files[-1]}")"
+if [[ -d "$texlive" ]]; then
+  PATH="${PATH}:${texlive}bin/${MACHTYPE}-${OSTYPE%%[-0-9]*}"
+  export MANPATH="${texlive}texmf-dist/doc/man:${MANPATH#:}"
+  export INFOPATH="${texlive}texmf-dist/doc/info:${INFOPATH}"
 fi
+
+cleanup_PATH() {
+  # shellcheck disable=SC2016
+  dedup() {
+    awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }'
+  }
+  for env in PATH XDG_DATA_DIRS MANPATH INFOPATH; do
+    eval "$env="'$(dedup <<< $'"$env"'); export '"$env"
+  done
+}
+[[ -z "$BASH_VERSION" ]] || cleanup_PATH
+
+if [[ -z "$EDITOR" ]]; then
+  if command -v nvim >/dev/null; then
+    export EDITOR=nvim
+  else
+    export EDITOR=vi
+  fi
+  export ALTERNATE_EDITOR="$EDITOR"
+  if command -v emacsclient >/dev/null; then
+    export EDITOR=emacsclient
+  fi
+fi
+
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_ASK=1
 export NIX_SHELL_PRESERVE_PROMPT=1
 export NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DIRENV_WARN_TIMEOUT='1h'
 SSH_AUTH_SOCK="${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
-[ -f "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK || unset SSH_AUTH_SOCK
+if [ -f "$SSH_AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK
+else
+  unset SSH_AUTH_SOCK
+fi
 
 # export ANTHROPIC_AUTH_TOKEN=dummy
 # export ANTHROPIC_BASE_URL='http://127.0.0.1:11434/'
@@ -89,7 +125,7 @@ alias userctl='systemctl --user'
 alias zstd='command zstd -T0 --adapt --exclude-compressed'
 alias la='ls -laZ'
 alias sl='ls'
-alias taildrop='tailscale file get --conflict=rename --verbose '"${HOME}/Downloads"
+alias taildrop='tailscale file get --conflict=rename --verbose "${HOME}/Downloads"'
 command -v nvim >/dev/null && alias vim=nvim
 command -v mpv >/dev/null || mpv() {
   flatpak run io.mpv.Mpv "$@"
@@ -99,17 +135,7 @@ command -v mpv >/dev/null || mpv() {
 . "${HOMEBREW_REPOSITORY}/Library/Homebrew/command-not-found/handler.sh" 2>/dev/null
 . "/etc/profile.d/bazzite-neofetch.sh" 2>/dev/null
 
-command -v fnm >/dev/null && eval "$(fnm env)"
-
 [[ -z $BASH_VERSION ]] && return
-
-cleanup_PATH() {
-  PATH="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$PATH")"
-  XDG_DATA_DIRS="$(awk -v RS=: -v ORS= '!a[$0]++ { if (NR>1) print ":"; print $0 }' <<< "$XDG_DATA_DIRS")"
-  export PATH
-  export XDG_DATA_DIRS
-}
-trap cleanup_PATH RETURN
 
 shopt -s histappend
 shopt -s checkwinsize
@@ -133,6 +159,7 @@ prompt_() {
   host="$([[ -n $CONTAINER_ID ]] && echo -n "$CONTAINER_ID" || echo -n '\h')"
   title="$([[ $TERM != dumb ]] && printf '\[\e]0;\\u@%s:\w\a\]' "$host")"
   hoststring="$([[ -n $SSH_CLIENT || -n $container && $container != flatpak ]] && printf '\\u@%s ' "$host")"
+  # shellcheck disable=SC2016
   printf '%s%s$ps1_status\w \$ ' "$title" "$hoststring"
 }
 PS1="$(prompt_)"
